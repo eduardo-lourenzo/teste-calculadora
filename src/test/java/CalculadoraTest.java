@@ -91,4 +91,74 @@ public class CalculadoraTest {
         });
         assertEquals("Operação inválida.", exception.getMessage());
     }
+
+    @Test
+    public void testAdicaoComMaxValue() {
+        Calculadora calculadora = new Calculadora();
+        double result = calculadora.calcular(Double.MAX_VALUE, 2.0, 'A');
+        assertEquals(Double.POSITIVE_INFINITY, result, 0.0001);
+        // Adição com MAX_VALUE causa overflow
+    }
+
+    @Test
+    public void testAdicaoComMinValueENegativo() {
+        Calculadora calculadora = new Calculadora();
+        double result = calculadora.calcular(Double.MIN_VALUE, -2.0, 'A');
+        assertEquals(Double.NEGATIVE_INFINITY, result, 0.0001);
+        // Adição com MAX_VALUE e com número negativo causa overflow
+    }
+
+    @Test
+    public void testSubtracaoComMaxValueENegativo() {
+        Calculadora calculadora = new Calculadora();
+        double result = calculadora.calcular(Double.MAX_VALUE, -2.0, 'S');
+        assertEquals(Double.POSITIVE_INFINITY, result, 0.0001);
+        // Subtração com MAX_VALUE e com número negativo causa overflow
+    }
+
+    @Test
+    public void testSubtracaoComMinValue() {
+        Calculadora calculadora = new Calculadora();
+        double result = calculadora.calcular(Double.MIN_VALUE, 2.0, 'S');
+        assertEquals(Double.NEGATIVE_INFINITY, result, 0.0001);
+        // Subtração com MIN_VALUE causa overflow
+    }
+
+    @Test
+    public void testMultiplicacaoComMaxValue() {
+        Calculadora calculadora = new Calculadora();
+        double result = calculadora.calcular(Double.MAX_VALUE, 2.0, 'M');
+        assertEquals(Double.POSITIVE_INFINITY, result, 0.0001);
+    }
+
+    @Test
+    public void testMultiplicacaoComMinValue() {
+        Calculadora calculadora = new Calculadora();
+        double result = calculadora.calcular(Double.MIN_VALUE, -2.0, 'M');
+        assertEquals(Double.NEGATIVE_INFINITY * 2.0, result, 0.0001);
+        // Multiplicação com MAX_VALUE e 2 causa overflow
+    }
+
+    @Test
+    public void testDivisaoComMinValue() {
+        Calculadora calculadora = new Calculadora();
+        double result = calculadora.calcular(Double.MIN_VALUE, 2.0, 'D');
+        assertEquals(Double.NEGATIVE_INFINITY, result, 0.0001);
+        // Divisão com MIN_VALUE e 2 causa overflow
+    }
+
+    @Test
+    public void testDivisaoDeMaxValuePorMinValue() {
+        Calculadora calculadora = new Calculadora();
+        double result = calculadora.calcular(Double.MAX_VALUE, Double.MIN_VALUE, 'D');
+        assertEquals(Double.POSITIVE_INFINITY, result, 0.0001);
+    }
+
+    @Test
+    public void testDivisaoDeMinValuePorMaxValue() {
+        Calculadora calculadora = new Calculadora();
+        double result = calculadora.calcular(Double.MIN_VALUE, Double.MAX_VALUE, 'D');
+        assertEquals(Double.NEGATIVE_INFINITY, result, 0.0001);
+        // Divisão de MIN_VALUE por MAX_VALUE causa overflow
+    }
 }
